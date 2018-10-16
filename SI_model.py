@@ -148,5 +148,10 @@ class Node:
         if len(self.susceptb_neighbors) == 0:
             raise ValueError("List of susceptible nodes is empty.")
         else:
-            random_suscept_neighbor_index = np.random.choice(list(self.susceptb_neighbors))
+            susceptb_neighbors_probs = [self.neighbor_probabs[i] for i in self.susceptb_neighbors]
+            susceptb_neighbors_probs /= np.sum(susceptb_neighbors_probs)
+
+            random_suscept_neighbor_index = np.random.choice(\
+                                                list(self.susceptb_neighbors), \
+                                                p = susceptb_neighbors_probs)
             return(random_suscept_neighbor_index)
