@@ -1,8 +1,6 @@
 #################
 #  Simulate simple disease propagation using a SI model in real brain networks
 #  Connectivity matrices from https://doi.org/10.1371/journal.pone.0014832
-#  Pablo F. Damasceno Aug 2019
-#
 ################
 
 from scipy.io import loadmat
@@ -149,6 +147,7 @@ class Node:
             raise ValueError("List of susceptible nodes is empty.")
         else:
             susceptb_neighbors_probs = [self.neighbor_probabs[i] for i in self.susceptb_neighbors]
+            # re-normalize probabilities given that some nodes might not be susceptible anymore
             susceptb_neighbors_probs /= np.sum(susceptb_neighbors_probs)
 
             random_suscept_neighbor_index = np.random.choice(\

@@ -13,6 +13,5 @@ def run_simulation(brain_index, simulations = 1):
         all_simulation_snaps.append(new_brain.snapshot)
     return(all_simulation_snaps)
 
-
 n_steps = 10000
 all_simulation_snaps = run_simulation(1, n_steps)
