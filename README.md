@@ -1,3 +1,3 @@
 # neuropy
 
-- Simple models of neurodegenerative disease propagation in python.
+- Simple models of neurodegenerative disease propagation (aka SI model) in python.
