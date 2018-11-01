@@ -2,6 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from nilearn import plotting
 import pandas as pd
+import io-utils
+
+#todo:
+# 1. read classes from coordinates file
+#
+#
 
 #Plot histograms#
 #################
@@ -57,6 +63,7 @@ def plot_glass_brains(all_simulation_snaps):
         step = np.array(step)
         all_H.append(np.sum(np.transpose(step), axis=1))
 
+    coordinates_filepath = utils.get_path('coordinates.csv')
     df = pd.read_csv('/Users/pablodamasceno/Documents/1_work/2_code/neuropy/coordinates.csv')
     color = df['group'].values[:90]
 
