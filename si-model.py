@@ -5,16 +5,17 @@
 
 from scipy.io import loadmat
 import numpy as np
-import matplotlib.pyplot as plt
+
+import os
 
 def get_path(filename):
-    """Find filename in ./data/ directory and return its
+    """Find filename in ./data/ directory and return its path
 
     Args:
-        filename (str): file we're looking for in the ./data/ directory.
+        filename (str): file we're looking for in ./data/ directory.
 
     Returns:
-        str: path to file "filename" in ./data/ dir.
+        str: absolute path to file "filename" in ./data/ dir.
 
     """
 
@@ -45,7 +46,7 @@ def get_connectivity_matrices(filepath):
         print(my_file)
         raise(FileNotFoundError('Is path to file correct??'))
 
-class Brain():
+class Brain:
     '''
     Parent class for the connectivities of one patient's brain, composed of:
         conn_matrix (arr)    : connectivity matrix
@@ -179,3 +180,28 @@ class Node:
                                                 list(self.susceptb_neighbors), \
                                                 p = susceptb_neighbors_probs)
             return(random_suscept_neighbor_index)
+
+class Simulation:
+    def __init__(self):
+        self.all_simulation_snaps  = []
+
+    def run_simulation(self, num_steps, brain_index):
+        self.all_simulation_snaps = []
+        for simulation in range(num_steps):
+            new_brain = Brain(conn_matrix=conn_matrices[brain_index])
+            new_brain.infect_brain()
+            self.all_simulation_snaps.append(new_brain.snapshot)
+
+if __name__ == "__main__":
+    '''
+    Run simulations
+    '''
+
+    file_name = 'connectivity_matrices.mat'
+    file_path = get_path(filename=file_name)
+    conn_matrices = get_connectivity_matrices(filepath = file_path)
+
+    brain_index    = 0
+
+    new_simulation = Simulation()
+    new_simulation.run_simulation(2, 0)
