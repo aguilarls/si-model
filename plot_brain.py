@@ -2,15 +2,47 @@ import matplotlib.pyplot as plt
 import numpy as np
 from nilearn import plotting
 import pandas as pd
-import io-utils
+import io_utils
 
 #todo:
 # 1. read classes from coordinates file
-#
+# 2. test
 #
 
 #Plot histograms#
 #################
+#################
+#1. Plot glass brains
+#################
+def plot_glass_brains(all_simulation_snaps):
+    all_simulation_snaps_arr = np.array(all_simulation_snaps)
+
+    all_H = []
+    for i in range(1,91,10):
+        step = [all_simulation_snaps_arr[j][i] for j in range(n_steps)]
+        step = np.array(step)
+        all_H.append(np.sum(np.transpose(step), axis=1))
+
+    coordinates_filepath = utils.get_path('coordinates.csv')
+    df = pd.read_csv('/Users/pablodamasceno/Documents/1_work/2_code/neuropy/coordinates.csv')
+    color = df['group'].values[:90]
+
+    coords = [(df['X'][i],df['Y'][i],df['Z'][i]) for i in range(90)]
+    connec = np.array([[0]*90]*90)
+
+    sizes  = all_H[1]/5
+
+    filtered_sizes = [sizes[i] if sizes[i] > 350 else 50 for i in range(len(sizes))]
+
+    plotting.plot_connectome(connec, coords,node_size=filtered_sizes,node_color=color,
+                         display_mode='lyrz')
+
+
+plot_glass_brains(all_simulation_snaps)
+
+###
+# 2. plot histograms
+###
 def get_random_color_by_class():
     color_class = np.array([
             1,  1,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  3,
@@ -49,33 +81,3 @@ def plot_all_histograms(all_simulation_snaps):
         plt.pause(0.05)
 
 plot_all_histograms(all_simulation_snaps)
-
-
-#################
-#2. Plot glass brains
-#################
-def plot_glass_brains(all_simulation_snaps):
-    all_simulation_snaps_arr = np.array(all_simulation_snaps)
-
-    all_H = []
-    for i in range(1,91,10):
-        step = [all_simulation_snaps_arr[j][i] for j in range(n_steps)]
-        step = np.array(step)
-        all_H.append(np.sum(np.transpose(step), axis=1))
-
-    coordinates_filepath = utils.get_path('coordinates.csv')
-    df = pd.read_csv('/Users/pablodamasceno/Documents/1_work/2_code/neuropy/coordinates.csv')
-    color = df['group'].values[:90]
-
-    coords = [(df['X'][i],df['Y'][i],df['Z'][i]) for i in range(90)]
-    connec = np.array([[0]*90]*90)
-
-    sizes  = all_H[1]/5
-
-    filtered_sizes = [sizes[i] if sizes[i] > 350 else 50 for i in range(len(sizes))]
-
-    plotting.plot_connectome(connec, coords,node_size=filtered_sizes,node_color=color,
-                         display_mode='lyrz')
-
-
-plot_glass_brains(all_simulation_snaps)
